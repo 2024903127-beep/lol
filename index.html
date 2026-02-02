@@ -1,0 +1,258 @@
+
+<!--
+kyu bhai dusro ki code dekhne mein maja aata? mat kr lala mat kr kisi special ke liye likha hai 
+yeh code mat dek ek baap ka hoga tho nhi deky ga heeee sorry vro i dont want to be rude but kya karu have a nice day 
+still here andi mandi shandiiiii ............ pls chale jaao dont scroll love u vro have a nice day
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You 💖</title>
+
+<!-- Romantic Font -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  height:100vh;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  overflow:hidden;
+  text-align:center;
+}
+
+/* PHASE TRANSITION SYSTEM */
+.phase{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transform:scale(1.05);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.phase.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:scale(1);
+}
+
+.card{
+  background:#fff0f3;
+  padding:28px;
+  border-radius:26px;
+  max-width:380px;
+  width:90%;
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
+}
+
+/* TEXT */
+h1,h2{
+  font-family:'Dancing Script',cursive;
+  color:#c9184a;
+}
+p{color:#333;font-size:16px;line-height:1.7}
+
+/* BUTTONS */
+button{
+  padding:12px 28px;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+}
+.primary{
+  background:linear-gradient(135deg,#ff4d6d,#ff758f);
+  color:white;
+  box-shadow:0 8px 20px rgba(255,77,109,.5);
+}
+.secondary{background:#dee2e6}
+
+/* HEARTS */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  color:#ff4d6d;
+  animation:float 6s linear infinite;
+  z-index:1;
+}
+@keyframes float{
+  to{transform:translateY(-110vh) scale(1.6);opacity:0}
+}
+
+/* FIREWORKS */
+.spark{
+  position:fixed;
+  width:6px;
+  height:6px;
+  background:#ff4d6d;
+  border-radius:50%;
+  animation:spark 800ms ease-out forwards;
+  z-index:9999;
+}
+@keyframes spark{
+  to{
+    transform:translate(var(--x),var(--y));
+    opacity:0;
+  }
+}
+
+/* NO BUTTON */
+.buttons{position:relative;height:120px}
+#noBtn{position:absolute}
+</style>
+</head>
+
+<body>
+
+<audio id="music1" src="sorrymp3.mp3" loop></audio>
+<audio id="music2" src="lovemp3.mp3" loop></audio>
+
+<!-- PHASE 0 -->
+<div id="p0" class="phase active">
+  <div class="card">
+    <h1>Hello GUYS 💖</h1>
+    <p>Here’s a present for you,<br> my dear 🎁</p>
+    <button class="primary" id="giftBtn">🎁 Open Gift</button>
+  </div>
+</div>
+
+<!-- PHASE 1 -->
+<div id="p1" class="phase">
+  <div class="card">
+    <h1>I’m Sorry 💔</h1>
+    <p>
+      Yarr Dek bs sorry for what i did
+      and there is reason for sure why and what i did
+      kabhi bhad mein explain karu ga
+      <br><br>
+      Tu chill ke there chance shyd i will be back
+      but lets see but i am sorry sidha gyab ho gaya
+    </p>
+    <button class="primary" id="to2">✉️ Click here</button>
+  </div>
+</div>
+
+<!-- PHASE 2 -->
+<div id="p2" class="phase">
+  <div class="card">
+    <h2 id="typing"></h2>
+    <div class="buttons">
+      <button class="primary" id="yesBtn">YES 😍</button>
+      <button class="secondary" id="noBtn">NO 🙃</button>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 3 -->
+<div id="p3" class="phase">
+  <div class="card">
+    <h1>From My Heart ❤️</h1>
+    <p>
+      You are my choice every single day.
+      lets see if we have a destiny warna tho koi na vro
+      <br><br>
+      Thank you for being always with me.
+      thank you what u did
+      thank u for memorable memories 
+    </p>
+    <button class="primary" onclick="sendWhatsApp()">💖 Pls click Me</button>
+  </div>
+</div>
+
+<script>
+const music1=document.getElementById("music1");
+const music2=document.getElementById("music2");
+
+/* SAFE PHASE SWITCH */
+function show(id){
+  document.querySelectorAll(".phase").forEach(p=>p.classList.remove("active"));
+  requestAnimationFrame(()=>document.getElementById(id).classList.add("active"));
+}
+
+/* OPEN GIFT — MOBILE SAFE */
+document.getElementById("giftBtn").addEventListener("pointerup",()=>{
+  show("p1");
+
+  // allow paint, then play audio
+  setTimeout(()=>{
+    music1.play().catch(()=>{});
+    fireworks();
+  },150);
+});
+
+/* TO PHASE 2 */
+document.getElementById("to2").addEventListener("pointerup",()=>{
+  music1.pause();
+  show("p2");
+  music2.play().catch(()=>{});
+  startTyping();
+});
+
+/* TYPING */
+const text="vro will u forgive me? have doubts try to go for no";
+let i=0;
+function startTyping(){
+  i=0;
+  typing.innerHTML="";
+  (function type(){
+    if(i<text.length){
+      typing.innerHTML+=text[i++];
+      setTimeout(type,80);
+    }
+  })();
+}
+
+/* NO BUTTON RUNS */
+noBtn.addEventListener("pointerenter",()=>{
+  noBtn.style.transform=
+   `translate(${Math.random()*200-100}px,${Math.random()*200-100}px)`;
+});
+
+/* YES */
+yesBtn.addEventListener("pointerup",()=>{
+  music2.pause();
+  show("p3");
+});
+
+/* WHATSAPP */
+function sendWhatsApp(){
+  location.href="https://wa.me/918287034496?text="+
+  encodeURIComponent("ja maaf kiya overacting");
+}
+
+/* HEARTS */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=Math.random()*20+14+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},450);
+
+/* FIREWORKS (NON-BLOCKING) */
+function fireworks(){
+  for(let i=0;i<30;i++){
+    let s=document.createElement("div");
+    s.className="spark";
+    s.style.left="50vw";
+    s.style.top="50vh";
+    s.style.setProperty("--x",(Math.random()*400-200)+"px");
+    s.style.setProperty("--y",(Math.random()*400-200)+"px");
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),800);
+  }
+}
+</script>
+
+</body>
+</html>
